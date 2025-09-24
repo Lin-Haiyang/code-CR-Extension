@@ -1,0 +1,69 @@
+{
+  "name": "one-vscode-extension",
+  "displayName": "one-vscode-extension",
+  "description": "one-vscode-extension",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:one-vscode-extension.helloWorld",
+    "onCommand:one-vscode-extension.showProjectInfo",
+    "onView:crProblemsView"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [{
+      "command": "one-vscode-extension.helloWorld",
+      "title": "Hello World"
+    }, {
+      "command": "one-vscode-extension.showProjectInfo",
+      "title": "显示项目信息"
+    }, {
+      "command": "one-vscode-extension.refreshCRProblems",
+      "title": "刷新CR问题",
+      "icon": "$(refresh)"
+    }, {
+      "command": "one-vscode-extension.openFile",
+      "title": "打开文件"
+    }],
+    "views": {
+      "explorer": [
+        {
+          "id": "crProblemsView",
+          "name": "CR问题列表",
+          "when": "workspaceFolderCount > 0"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "one-vscode-extension.refreshCRProblems",
+          "when": "view == crProblemsView",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "dependencies": {
+    "simple-git": "^3.25.0",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.104.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "eslint": "^9.34.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
