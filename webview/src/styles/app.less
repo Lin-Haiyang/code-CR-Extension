@@ -1,0 +1,100 @@
+@import './variables.less';
+@import './mixins.less';
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: @font-family;
+    background: @bg-primary;
+    color: @text-primary;
+    overflow-x: hidden;
+}
+
+.app {
+    min-height: 100vh;
+    padding: @spacing-lg;
+
+    &__content {
+        overflow: hidden;
+        transition: max-height 0.24s cubic-bezier(0.645, 0.045, 0.355, 1),
+                    opacity 0.24s cubic-bezier(0.645, 0.045, 0.355, 1),
+                    transform 0.24s cubic-bezier(0.645, 0.045, 0.355, 1),
+                    margin-bottom 0.24s cubic-bezier(0.645, 0.045, 0.355, 1);
+        max-height: 5000px;
+        opacity: 1;
+        transform: translateY(0);
+        margin-bottom: @spacing-lg;
+
+        &--collapsed {
+            max-height: 0;
+            opacity: 0;
+            transform: translateY(-8px);
+            margin-bottom: 0;
+        }
+    }
+
+    &__problems {
+        display: flex;
+        flex-direction: column;
+        gap: 0; // 卡片自带 margin-bottom
+
+        // 为每个卡片添加延迟动画
+        .cr-card:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .cr-card:nth-child(2) {
+            animation-delay: 0.05s;
+        }
+
+        .cr-card:nth-child(3) {
+            animation-delay: 0.1s;
+        }
+
+        .cr-card:nth-child(4) {
+            animation-delay: 0.15s;
+        }
+
+        .cr-card:nth-child(5) {
+            animation-delay: 0.2s;
+        }
+
+        .cr-card:nth-child(6) {
+            animation-delay: 0.25s;
+        }
+
+        .cr-card:nth-child(7) {
+            animation-delay: 0.3s;
+        }
+
+        .cr-card:nth-child(8) {
+            animation-delay: 0.35s;
+        }
+    }
+
+    .custom-scrollbar();
+}
+
+// 全局滚动条样式
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+}

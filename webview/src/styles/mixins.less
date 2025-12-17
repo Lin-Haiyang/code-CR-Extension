@@ -1,0 +1,110 @@
+@import './variables.less';
+
+// 毛玻璃效果
+.glass-effect(@bg-color: @bg-card, @blur: 10px) {
+    background: @bg-color;
+    backdrop-filter: blur(@blur);
+    -webkit-backdrop-filter: blur(@blur);
+}
+
+// 渐变边框
+.gradient-border(@gradient: @gradient-primary, @width: 2px, @radius: @radius-md) {
+    position: relative;
+    border-radius: @radius;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: @radius;
+        padding: @width;
+        background: @gradient;
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+    }
+}
+
+// 发光效果
+.glow-effect(@color: @glow-primary, @size: 20px) {
+    box-shadow: 0 0 @size @color;
+}
+
+// 悬停发光动画
+.hover-glow(@color: @glow-primary) {
+    transition: box-shadow @transition-normal ease;
+
+    &:hover {
+        box-shadow: 0 0 20px @color, 0 0 40px fade(@color, 50%);
+    }
+}
+
+// 渐变文字
+.gradient-text(@gradient: @gradient-primary) {
+    background: @gradient;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+// 卡片基础样式
+.card-base() {
+    .glass-effect(@bg-card, 3px);
+    border: 1px solid @border-color;
+    border-radius: @radius-lg;
+    padding: @spacing-lg;
+    transition: all @transition-normal ease;
+}
+
+// 平滑过渡
+.smooth-transition(@property: all, @duration: @transition-normal) {
+    transition: @property @duration cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Flex 居中
+.flex-center() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// Flex 垂直居中
+.flex-align-center() {
+    display: flex;
+    align-items: center;
+}
+
+// 文字省略
+.text-ellipsis() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// 多行文字省略
+.text-ellipsis-multiline(@lines: 2) {
+    display: -webkit-box;
+    -webkit-line-clamp: @lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+// 滚动条样式
+.custom-scrollbar(@width: 8px, @track-color: transparent, @thumb-color: rgba(255, 255, 255, 0.2)) {
+    &::-webkit-scrollbar {
+        width: @width;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: @track-color;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: @thumb-color;
+        border-radius: @width / 2;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    }
+}

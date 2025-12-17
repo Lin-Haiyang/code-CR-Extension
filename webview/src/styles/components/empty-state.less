@@ -1,0 +1,36 @@
+@import '../variables.less';
+@import '../mixins.less';
+@import '../animations.less';
+
+.empty-state {
+    .flex-center();
+    flex-direction: column;
+    padding: @spacing-xl * 2;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+
+    &__icon {
+        font-size: 64px;
+        margin-bottom: @spacing-lg;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    &__title {
+        margin: 0 0 @spacing-md 0;
+        font-size: @font-size-xl;
+        font-weight: 700;
+        .gradient-text(@gradient-success);
+    }
+
+    &__message {
+        margin: 0 0 @spacing-sm 0;
+        font-size: @font-size-md;
+        color: @text-secondary;
+    }
+
+    &__sub {
+        margin: 0;
+        font-size: @font-size-sm;
+        color: @text-muted;
+    }
+}

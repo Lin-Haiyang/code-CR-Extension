@@ -1,10 +1,10 @@
 .vscode/**
 .vscode-test/**
-test/**
+webview/src/**
+webview/node_modules/**
+webview/package.json
+webview/webpack.config.js
 .gitignore
-.yarnrc
-vsc-extension-quickstart.md
-**/jsconfig.json
-**/*.map
-**/eslint.config.mjs
-**/.vscode-test.*
+.git/**
+*.vsix
+

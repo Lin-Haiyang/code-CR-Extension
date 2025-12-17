@@ -1,49 +1,62 @@
 {
-  "name": "one-vscode-extension",
-  "displayName": "one-vscode-extension",
-  "description": "one-vscode-extension",
+  "name": "AICRAssistant",
+  "displayName": "AICRAssistant",
+  "description": "AICRAssistant demo 0.0.1",
   "version": "0.0.1",
+  "publisher": "Jade",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jade/ai-cr-extension.git"
+  },
   "engines": {
-    "vscode": "^1.60.0"
+    "vscode": "^1.104.0"
   },
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "onCommand:one-vscode-extension.helloWorld",
-    "onCommand:one-vscode-extension.showProjectInfo",
-    "onView:crProblemsView"
+    "onStartupFinished"
   ],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "one-vscode-extension.helloWorld",
-      "title": "Hello World"
-    }, {
-      "command": "one-vscode-extension.showProjectInfo",
-      "title": "显示项目信息"
-    }, {
-      "command": "one-vscode-extension.refreshCRProblems",
-      "title": "刷新CR问题",
-      "icon": "$(refresh)"
-    }, {
-      "command": "one-vscode-extension.openFile",
-      "title": "打开文件"
-    }],
-    "views": {
-      "explorer": [
+    "viewsContainers": {
+      "activitybar": [
         {
-          "id": "crProblemsView",
-          "name": "CR问题列表",
-          "when": "workspaceFolderCount > 0"
+          "id": "ai-cr-assistant",
+          "title": "AI CR Assistant",
+          "icon": "$(robot)"
         }
       ]
     },
+    "views": {
+      "ai-cr-assistant": [
+        {
+          "type": "webview",
+          "id": "aiCRPanel",
+          "name": "CR问题列表"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "aiCRAssistant.helloWorld",
+        "title": "Hello World"
+      },
+      {
+        "command": "aiCRAssistant.showProjectInfo",
+        "title": "显示项目信息"
+      },
+      {
+        "command": "aiCRAssistant.refreshCRProblems",
+        "title": "刷新CR问题",
+        "icon": "$(refresh)"
+      }
+    ],
     "menus": {
       "view/title": [
         {
-          "command": "one-vscode-extension.refreshCRProblems",
-          "when": "view == crProblemsView",
+          "command": "aiCRAssistant.refreshCRProblems",
+          "when": "view == aiCRPanel",
           "group": "navigation"
         }
       ]
@@ -52,7 +65,10 @@
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "build": "cd webview && npm run build",
+    "dev": "cd webview && npm run dev",
+    "package": "npm run build && vsce package --no-git-tag-version"
   },
   "dependencies": {
     "simple-git": "^3.25.0",
