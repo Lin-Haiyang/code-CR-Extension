@@ -4,12 +4,12 @@
 
 ## ✨ 功能特性
 
-- 🤖 **AI 风格界面**: 使用 React + Less 构建的炫酷 Webview 界面
-- 🎨 **现代化设计**: 深色主题、渐变色、毛玻璃效果、动画过渡
-- 📍 **活动栏集成**: 在 VS Code 活动栏显示 🤖 图标,一键访问
-- 🔍 **智能高亮**: 点击问题自动跳转并高亮相关代码行
-- 🔄 **实时刷新**: 支持手动刷新 CR 问题列表
-- 📊 **问题分类**: 按严重程度(错误/警告/建议)显示不同图标和样式
+- **AI 风格界面**: 使用 React + Less 构建的炫酷 Webview 界面
+- **现代化设计**: 深色主题、渐变色、毛玻璃效果、动画过渡
+- **活动栏集成**: 在 VS Code 活动栏显示 🤖 图标,一键访问
+- **智能高亮**: 点击问题自动跳转并高亮相关代码行
+- **实时刷新**: 支持手动刷新 CR 问题列表
+- **问题分类**: 按严重程度(错误/警告/建议)显示不同图标和样式
 
 ## 🚀 快速开始
 
@@ -26,19 +26,25 @@
    cd code-CR-Extension
    ```
 
-2. **安装扩展依赖**
+2. **安装依赖**
    ```bash
+   # 安装扩展依赖
    npm install
-   ```
-
-3. **构建 Webview 前端**
-   ```bash
+   
+   # 安装 webview 前端依赖
    cd webview
    npm install
+   cd ..
+   ```
+
+3. **构建项目**
+   
+   首次运行或发布前需要构建 webview:
+   ```bash
    npm run build
    ```
    
-   或者使用开发模式(自动监听文件变化):
+   开发时可以使用 watch 模式(自动监听文件变化):
    ```bash
    npm run dev
    ```
@@ -95,10 +101,26 @@ code-CR-Extension/
 const apiUrl = `https://api.example.com/cr-problems/${encodeURIComponent(projectKey)}`;
 ```
 
-### 构建脚本
+### 构建和打包脚本
 
-- `npm run build:webview`: 生产环境构建
-- `npm run dev:webview`: 开发环境构建(watch 模式)
+#### 开发模式
+- `npm run dev`: 启动开发模式，自动监听 webview 文件变化并重新构建
+
+#### 生产构建
+- `npm run build`: 构建 webview 前端资源（生产环境）
+
+#### 打包发布
+- `npm run package`: 构建并打包 VS Code 扩展为 `.vsix` 文件
+  - 会自动执行 `npm run build` 构建 webview
+  - 使用 `vsce package` 打包扩展
+  - 生成的文件位于项目根目录，格式为 `AICRAssistant-0.0.1.vsix`
+
+#### 单独构建 webview（在 webview 目录下）
+```bash
+cd webview
+npm run build    # 生产环境构建
+npm run dev      # 开发环境构建（watch 模式）
+```
 
 ## ⚠️ 重要注意事项
 
@@ -107,8 +129,12 @@ const apiUrl = `https://api.example.com/cr-problems/${encodeURIComponent(project
 在首次运行或修改 React 代码后,**必须**先构建 Webview:
 
 ```bash
-cd webview
 npm run build
+```
+
+或者使用开发模式（自动监听变化）:
+```bash
+npm run dev
 ```
 
 否则扩展会因为找不到 `dist/webview.js` 而无法正常显示界面。
@@ -166,15 +192,15 @@ npm run build
 
 **解决方案**:
 1. 检查 `dist/webview.js` 是否存在
-2. 运行 `cd webview && npm run build`
-3. 重新加载扩展窗口
+2. 运行 `npm run build` 重新构建
+3. 重新加载扩展窗口（在扩展开发宿主窗口按 `Cmd+R` 或重新按 `F5`）
 
 ### 问题: 样式未生效
 
 **解决方案**:
 1. 确认 Less 文件导入路径正确
 2. 清除缓存: `rm -rf webview/node_modules/.cache`
-3. 重新运行 `npm run build`
+3. 重新运行 `npm run build` 或 `npm run dev`
 
 ### 问题: 高亮不显示
 
@@ -183,6 +209,51 @@ npm run build
 2. 检查代码行号格式(支持 "25" 或 "20-45")
 3. 查看控制台错误信息
 
+## 📦 打包发布
+
+### 打包扩展
+
+使用以下命令打包扩展为 `.vsix` 文件:
+
+```bash
+npm run package
+```
+
+该命令会：
+1. 自动执行 `npm run build` 构建 webview
+2. 使用 `vsce package` 打包扩展
+3. 生成 `AICRAssistant-0.0.1.vsix` 文件
+
+### 安装扩展
+
+打包完成后，可以通过以下方式安装：
+
+1. **命令行安装**:
+   ```bash
+   code --install-extension AICRAssistant-0.0.1.vsix
+   ```
+
+2. **VS Code 界面安装**:
+   - 打开 VS Code
+   - 按 `Cmd+Shift+P` (Mac) 或 `Ctrl+Shift+P` (Windows/Linux)
+   - 输入 "Extensions: Install from VSIX..."
+   - 选择生成的 `.vsix` 文件
+
+### 发布到 VS Code 市场
+
+如果需要发布到 VS Code 市场，需要：
+
+1. 安装 `vsce` (如果未安装):
+   ```bash
+   npm install -g @vscode/vsce
+   ```
+
+2. 登录并发布:
+   ```bash
+   vsce login <publisher-name>
+   vsce publish
+   ```
+
 ## 📝 开发日志
 
 - ✅ 完成 React + Less 前端架构
@@ -190,6 +261,7 @@ npm run build
 - ✅ 集成到 VS Code 活动栏
 - ✅ 实现代码跳转和高亮
 - ✅ 优化高亮效果(紫蓝色渐变风格)
+- ✅ 实现 Git 分支自动检测和切换
 
 ## 📄 License
 
